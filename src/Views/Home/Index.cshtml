@@ -1,0 +1,327 @@
+﻿@model NsaIpa.Web.Models.HomeModel
+
+@{
+    ViewData["Title"] = "NSA-IPI";
+}
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("i.fa").popover({ 'trigger': 'hover' });
+        });
+    </script>
+}
+
+<div class="container">
+    <div class="row">
+        <!-- القسم الأساسي للمحتوى -->
+        <div class="col-lg-8 col-md-10 col-12 mx-auto">
+
+            <div class="card border-success  mt-5">
+                <div class="card-body">
+
+                <div class="mb-4 d-flex justify-content-center">
+                    <img src="~/images/logo.png" class="img-fluid" alt="NSA-IPI" asp-append-version="true" style="max-width: 270px; height: auto;">
+                </div>
+
+
+                    <div class="mb-4 text-center">
+                        <h2 class="text-success" style="font-weight: bold">NSA-IPI</h2>
+                        <h5 class="text-success">Non-Specific Amplification Implicated Primer Identification</h5>
+                        <div class="alert alert-secondary" role="alert">
+                            NSA-IPI is an online tool designed to help researchers identify primer pairs responsible for non-specific amplifications in multiplex PCR. Click on the workflow icons below for detailed usage instructions.
+                        </div>
+                    </div>
+
+
+                <div class="container my-4">
+                    <div class="row justify-content-center">
+                        <div class="col-md-3">
+                            <div class="card step-card">
+                                <div class="step-number">1</div>
+                                    <div class="card-body step-card-body">
+                                        <img src="~/images/1.png" asp-append-version="true" class="step-image" alt="Step 1" data-bs-toggle="modal" data-bs-target="#modal1">
+                                    <span class="info-icon" data-bs-toggle="modal" data-bs-target="#modal1">❓</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card step-card">
+                                <div class="step-number">2</div>
+                                    <div class="card-body step-card-body">
+                                        <img src="~/images/2.png" asp-append-version="true" class="step-image" alt="Step 2" data-bs-toggle="modal" data-bs-target="#modal2">
+                                    <span class="info-icon" data-bs-toggle="modal" data-bs-target="#modal2">❓</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card step-card">
+                                <div class="step-number">3</div>
+                                    <div class="card-body step-card-body">
+                                        <img src="~/images/3.png" asp-append-version="true" class="step-image" alt="Step 3" data-bs-toggle="modal" data-bs-target="#modal3">
+                                    <span class="info-icon" data-bs-toggle="modal" data-bs-target="#modal3">❓</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card step-card">
+                                <div class="step-number">4</div>
+                                    <div class="card-body step-card-body">
+                                        <img src="~/images/4.png" asp-append-version="true" class="step-image" style="margin-top: 30px;" alt="Step 4" data-bs-toggle="modal" data-bs-target="#modal4">
+                                    <span class="info-icon" data-bs-toggle="modal" data-bs-target="#modal4">❓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                    <form asp-action="Nsa" method="post" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Form.Values" class="form-label"></label>
+                            <input asp-for="Form.Values" class="form-control">
+                            <span asp-validation-for="Form.Values" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Form.NsbCount" class="form-label"></label>
+                            <input min="1" asp-for="Form.NsbCount" class="form-control">
+                            <span asp-validation-for="Form.NsbCount" class="text-danger"></span>
+                        </div>
+                        <div class="d-grid gap-1 col-6 mx-auto">
+                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-check me-1"></i>Execute</button>
+                        </div>
+                    </form>
+
+                    <hr class="text-center bio-style mt-5 mb-5" />
+
+
+                    <div class="mb-4 text-center">
+                        <h2 class="text-success" style="font-weight: bold">NSA-IPI</h2>
+                        <h5 class="text-success">Mis-priming primer(s) prediction</h5>
+                        <div class="alert alert-secondary text-start" role="alert">
+                            After identifying the primer pair causing the non-specific amplification (NSA), predicting whether one or both primers are mis-priming is crucial for redesign. Below are illustrations of the three mis-priming scenarios, along with instructions for using the NSA-IPI mis-priming prediction feature:
+
+
+
+                            <ol type="A" class="mt-2">
+                                <li>
+                                    <span>Specifically Annealed Forward Primer (FWR) and Mis-Annealed Reverse Primer (REV):</span>
+                                    <ul type="disc" class="mt-2">
+                                        <li>
+                                            Query: Assumed mis-annealing primer sequence, i.e., REV.
+                                        </li>
+                                        <li>
+                                            Reference: A short sequence <span class="text-decoration-underline fw-bold">surrounding</span> the assumed mis-priming site, located downstream (3') of the FWR binding site, starting at an offset equal to the NSA length.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span>Specifically Annealed Reverse Primer (REV) and Mis-Annealed Forward Primer (FWR):</span>
+                                    <ul type="disc" class="mt-2">
+                                        <li>Query: Assumed mis-annealing primer sequence, i.e., FWR.</li>
+                                        <li>Reference: A short sequence <span class="text-decoration-underline fw-bold">surrounding</span> the assumed mis-priming site, located upstream (5') of the REV primer binding site, starting at an offset equal to the NSA length.</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <span>Both Primers Are Mis-Annealing:</span>
+                                    <ul type="disc" class="mt-2">
+                                        <li>This can be inferred from the results of the scenarios above.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <div class="mb-4 d-flex justify-content-center">
+                                <img src="~/images/fwrrev.png" class="img-fluid" alt="NSA-IPI" width="100%" asp-append-version="true">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                    <form asp-action="Nsp" method="post" novalidate enctype="multipart/form-data">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+                        <div>
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="QueryIsTextTrue" asp-for="@Model.Blast.QueryIsText" value="true">
+                                <label class="form-check-label">Paste query sequence</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="QueryIsTextFalse" asp-for="@Model.Blast.QueryIsText" value="false">
+                                <label class="form-check-label">Query (Fasta file format)</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3" id="query-text" style="display: @(Model.Blast.QueryIsText ? "block" : "none")">
+                            <textarea class="form-control" asp-for="Blast.Query" rows="5" placeholder="Enter your query here"></textarea>
+                            <span asp-validation-for="Blast.Query" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="query-file" style="display: @(Model.Blast.QueryIsText ? "none" : "block")">
+                            <input class="form-control" asp-for="Blast.QueryFile">
+                            <span asp-validation-for="Blast.QueryFile" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="ReferenceIsTextTrue" asp-for="@Model.Blast.ReferenceIsText" value="true">
+                                <label class="form-check-label">Paste reference sequence</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="ReferenceIsTextFalse" asp-for="@Model.Blast.ReferenceIsText" value="false">
+                                <label class="form-check-label">Reference (Fasta file format)</label>
+                            </div>
+
+
+                        </div>
+
+                        <div class="mb-3" id="reference-text" style="display: @(Model.Blast.ReferenceIsText ? "block" : "none")">
+                            <textarea class="form-control" asp-for="Blast.Reference" rows="5" placeholder="Enter your reference here"></textarea>
+                            <span asp-validation-for="Blast.Reference" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3" id="reference-file" style="display: @(Model.Blast.ReferenceIsText ? "none" : "block")">
+                            <input class="form-control" asp-for="Blast.ReferenceFile">
+                            <span asp-validation-for="Blast.ReferenceFile" class="text-danger"></span>
+                        </div>
+
+
+
+
+                        <div class="row mb-3">
+                            <div class="col-md-6 col-12 mt-2">
+                                <label asp-for="Blast.StrandTypes" class="form-label"></label>
+                                <i title="Query strand(s) to search against database/subject" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+
+                                <select class="form-select" asp-items="@Model.Blast.StrandTypes"></select>
+
+                                <span asp-validation-for="Blast.StrandTypes" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 col-12 mt-2">
+                                <label asp-for="Blast.TaskTypes" class="form-label"></label>
+                                <i title="Task to execute" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+                                <select asp-for="Blast.TaskType" class="form-select" asp-items="@Model.Blast.TaskTypes"></select>
+                                <span asp-validation-for="Blast.TaskTypes" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-md-4 col-12 mt-2">
+                                <label asp-for="Blast.Evalue" class="form-label"></label>
+                                <i title="Expectation value (E) threshold for saving hits. Default = 10 (1000 for blastn-short)" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+
+                                <input class="form-control form-control-sm" asp-for="Blast.Evalue">
+                                <span asp-validation-for="Blast.Evalue" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 col-12 mt-2">
+                                <label asp-for="Blast.WordSize" class="form-label"></label>
+                                <i title="Word size for wordfinder algorithm (length of best perfect match)" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+
+                                <input class="form-control form-control-sm" asp-for="Blast.WordSize">
+                                <span asp-validation-for="Blast.WordSize" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 col-12 mt-2">
+                                <label asp-for="Blast.SortHits" class="form-label"></label>
+                                <i title="Sorting option for hits" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+
+                                <select asp-for="Blast.SortHit" class="form-select" asp-items="@Model.Blast.SortHits"></select>
+                                <span asp-validation-for="Blast.SortHits" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-md-3 col-12 mt-2">
+                                <label asp-for="Blast.GapOpen" class="form-label"></label>
+                                <i title="Cost to open a gap" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+                                <input class="form-control form-control-sm" asp-for="Blast.GapOpen">
+                                <span asp-validation-for="Blast.GapOpen" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 col-12 mt-2">
+                                <label asp-for="Blast.GapExtend" class="form-label"></label>
+                                <i title="Cost to extend a gap" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+                                <input class="form-control form-control-sm" asp-for="Blast.GapExtend">
+                                <span asp-validation-for="Blast.GapExtend" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 col-12 mt-2">
+                                <label asp-for="Blast.Penalty" class="form-label"></label>
+                                <i title="Penalty for a nucleotide mismatch" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+                                <input class="form-control form-control-sm" asp-for="Blast.Penalty">
+                                <span asp-validation-for="Blast.Penalty" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3 col-12 mt-2">
+                                <label asp-for="Blast.Reward" class="form-label"></label>
+                                <i title="Reward for a nucleotide match" class="fa fa-info-circle ms-2 text-primary" data-toggle="tooltip"></i>
+
+                                <input class="form-control form-control-sm" asp-for="Blast.Reward">
+                                <span asp-validation-for="Blast.Reward" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="d-grid gap-1 col-6 mx-auto ">
+                            <button type="submit" class="btn btn-success mt-3 mb-5"><i class="fa-solid fa-check me-1"></i>Run BLAST</button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- Modals -->
+            <div class="modal fade" id="modal1" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Step 1</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body fw-bold">Enter the primer IDs used in the original multiplex PCR where NSAs were observed, along with the number of observed NSAs. Press ‘Execute’ to generate the four primer pools (A–D).</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Step 2</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body fw-bold">Perform multiplex PCR using the four primer pools (A, B, C, D) suggested by NSA-IPI. Visualise the results via gel electrophoresis.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal3" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Step 3</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body fw-bold">Select the gel lanes showing the NSA band from the ‘NSA visible in’ dropdown menu. NSA-IPI will refine the list of possible primer pairs causing the NSA. If the suggested list is manageable, proceed with confirmatory singleplex PCR; otherwise, run another round of NSA-IPI analysis on the suggested list.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="modal4" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Step 4</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body fw-bold">Use NSA-IPI’s Mis-Priming Prediction feature to determine whether one or both implicated primers are mis-priming (See instructions below). Based on the in-silico analysis, re-design the mis-priming primer(s). Alternatively, skip this step and separate the problematic primers, as identified by the experimental analysis, into different PCR reactions to achieve successful target amplification.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+﻿@model ResultModel
+@{
+    ViewData["Title"] = "NSP-IPI | Results";
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("i.fa").popover({ 'trigger': 'hover' });
+        });
+    </script>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 col-12 mx-auto">
+
+            <div class="card border-success mt-5">
+                <div class="card-body">
+                    <div class="mb-4 d-flex justify-content-center">
+                        <img src="~/images/logo.png" class="img-fluid" alt="NSA-IPI" asp-append-version="true" style="max-width: 270px; height: auto;">
+                    </div>
+
+                    <div class="mb-4 text-center">
+                        <h4 class="text-success">Mis-priming primer(s) prediction</h4>
+                    </div>
+
+                    <h5 class="text-center bio-style">Result Summary</h5>
+
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered border-success text-center">
+                            <thead>
+                            <tr>
+                                <th class="bg-success text-white">Def</th>
+                                <th class="bg-success text-white">Score</th>
+                                <th class="bg-success text-white">E-Value</th>
+                                <th class="bg-success text-white">Align-Length</th>
+                                <th class="bg-success text-white">Hit-From</th>
+                                <th class="bg-success text-white">Hit-To</th>
+                                <th class="bg-success text-white">
+                                    Hit-Frame <i class="fa fa-info-circle ms-2 text-white" data-toggle="tooltip" title="(Reference strand)/(Query strand); A primer, the query strand, is acting FWR when it is Plus, and acting REV when it is Minus."></i>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model.Blasts.Any())
+                            {
+                                foreach (BlastHitModel blast in Model.Blasts)
+                                {
+                                    <tr>
+                                        <td>@blast.Contig</td>
+                                        <td>@blast.Score</td>
+                                        <td>@blast.Evalue</td>
+                                        <td>@blast.Align</td>
+                                        <td>@blast.HitStart</td>
+                                        <td>@blast.HitEnd</td>
+                                        <td>@blast.Frame</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7">No Data</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                    <h5 class="text-center bio-style">Result Details</h5>
+
+
+                    <textarea class="form-control" rows="15" readonly="readonly" style="font-family: Lucida Console, Courier New, Consolas, Monaco, Courier">@Model.Txt</textarea>
+
+                    <hr class="text-center bio-style"/>
+
+                    <div class="d-grid gap-1 col-6 mx-auto">
+                        <a asp-action="Index" class="btn btn-success"><i class="fa-solid fa-house me-2"></i>Back To HOME</a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
